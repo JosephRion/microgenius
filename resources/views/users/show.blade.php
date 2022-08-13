@@ -8,7 +8,7 @@
                     <h3 class="card-title">{{ $user->name }}</h3>
                 </div>
                 <div class="card-body">
-                    {{-- ユーザのメールアドレスをもとにGravatarを取得して表示. アバターの表示部分にはBootstrapのカードを利用 --}}
+                    {{-- ユーザのメールアドレスをもとにGravatarを取得して表示. アバターの表示部分にはBootstrapのカードを利用。L15 C8.4 UsersController --}}
                     <img class="rounded img-fluid" src="{{ Gravatar::get($user->email, ['size' => 500]) }}" alt="">
                 </div>
             </div>

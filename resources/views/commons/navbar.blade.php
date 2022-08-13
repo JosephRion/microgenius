@@ -11,12 +11,12 @@
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                 @if (Auth::check())
-                     {{-- ユーザ一覧ページへのリンク.Auth::id() というクラスメソッド.ログインユーザのIDを取得することができるメソッドで、Auth::user()->id と同じ動き --}}
+                     {{-- L15C8.3 ユーザ一覧ページへのリンク.Auth::id() というクラスメソッド.ログインユーザのIDを取得することができるメソッドで、Auth::user()->id と同じ動き --}}
                     <li class="nav-item">{!! link_to_route('users.index', 'Users', [], ['class' => 'nav-link']) !!}</li>
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }}</a>
                         <ul class="dropdown-menu dropdown-menu-right">
-                            {{-- ユーザ詳細ページへのリンク --}}
+                            {{-- L15 C8.4 UsersControllerユーザ詳細ページへのリンク --}}
                             <li class="dropdown-item">{!! link_to_route('users.show', 'My profile', ['user' => Auth::id()]) !!}</li>
                             <li class="dropdown-divider"></li>
                             {{-- ログアウトへのリンク --}}

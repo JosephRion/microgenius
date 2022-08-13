@@ -34,8 +34,6 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 //L15 C8.2
 //Router認証付きのルーティング
-Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
-
 Route::group(['middleware' => ['auth']], function () {
     Route::resource('users', 'UsersController', ['only' => ['index', 'show']]);
 });

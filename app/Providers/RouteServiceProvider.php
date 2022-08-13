@@ -20,6 +20,11 @@ class RouteServiceProvider extends ServiceProvider
      * The path to the "home" route for your application.
      *
      * @var string リダイレクト先をトップページにする。
+     * 元々
+     *  public const HOME = '/home'; 
+     * だったのだが
+     * public const HOME = '/';
+     * にする。
      */
     public const HOME = '/';
 

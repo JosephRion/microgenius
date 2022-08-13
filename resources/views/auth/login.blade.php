@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+ {{-- L15 Chapter 7.3 --}}
     <div class="text-center">
         <h1>Log in</h1>
     </div>

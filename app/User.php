@@ -36,4 +36,17 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    
+    /**
+     * 
+     * モデルと接続されるテーブル名は、モデル名によって決められます。
+     * たとえば、 Messageモデルはmessagesテーブルと自動的に接続されます。
+     * この規則を破って独自のテーブル名をつけたい場合に、 $table を使用します。
+     * 
+     * protected $table = 'micro_geniuses'; これのせいで入れなくなっていた。
+     */
+    
+
+    
 }

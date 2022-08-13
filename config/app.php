@@ -136,7 +136,9 @@ return [
 
     'providers' => [
 
-        /*
+        /* ファサードとは、各クラスのメソッドを、クラスのインスタンスを作らなくてもstaticメソッドとして利用できるようにし、使いやすくしたものです。
+         * また、そのファサードを、さらに使いやすいようにグローバールの名前空間（\）で扱えるようにしたものがエイリアスです。
+         * 右側のIlluminate\Support\Facades\Auth::classがエイリアスに登録したいクラスです。
          * Laravel Framework Service Providers...
          */
         Illuminate\Auth\AuthServiceProvider::class,

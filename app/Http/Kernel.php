@@ -47,7 +47,10 @@ class Kernel extends HttpKernel
      * The application's route middleware.
      *
      * These middleware may be assigned to groups or used individually.
-     *
+     * uestミドルウェア
+     * guest の定義はどこにあるのでしょうか。
+     * Laravelの中に guest という名前のクラスがあるわけではありません。 
+     * guest は エイリアス（ニックネームのようなもの）としてつけられた名前です。
      * @var array
      */
     protected $routeMiddleware = [

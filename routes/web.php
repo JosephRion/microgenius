@@ -37,6 +37,16 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 //L15 C8.2
 //Router認証付きのルーティング
 Route::group(['middleware' => ['auth']], function () {
+    
+    //L15 C10.2 Router 追加
+    Route::group(['prefix' => 'users/{id}'], function () {
+        Route::post('follow', 'UserFollowController@store')->name('user.follow');
+        Route::delete('unfollow', 'UserFollowController@destroy')->name('user.unfollow');
+        Route::get('followings', 'UsersController@followings')->name('users.followings');
+        Route::get('followers', 'UsersController@followers')->name('users.followers');
+    });
+    
+    //L15 C8.2
     Route::resource('users', 'UsersController', ['only' => ['index', 'show']]);
     
     //L15C9.2 Router

@@ -24,10 +24,23 @@ class UsersController extends Controller
         // idの値でユーザを検索して取得
         $user = User::findOrFail($id);
 
-        // ユーザ詳細ビューでそれを表示
+        // ユーザ詳細ビューでそれを表示。 L15 C9.6で廃止。
+        // return view('users.show', [
+        //     'user' => $user,
+        // ]);
+        
+        // 関係するモデルの件数をロード。 L15 C9.6
+        $user->loadRelationshipCounts();
+        
+        // ユーザの投稿一覧を作成日時の降順で取得
+        $microgeniuses = $user->microgeniuses()->orderBy('created_at', 'desc')->paginate(3); //3投稿ごとに、次のページヘ。ページネーション。
+        
+        // ユーザ詳細ビューでそれらを表示。L15 C9.6
         return view('users.show', [
             'user' => $user,
+            'microgeniuses' => $microgeniuses,
         ]);
+        
     }
     
 }

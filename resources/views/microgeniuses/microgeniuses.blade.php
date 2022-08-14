@@ -8,13 +8,23 @@
                 <div class="media-body">
                     <div>
                         {{-- 投稿の所有者のユーザ詳細ページへのリンク --}}
-                        {!! link_to_route('users.show', $microgeniuse->user->name, ['user' => $microgenius->user->id]) !!}
+                        {!! link_to_route('users.show', $microgeniuse->user->name, ['user' => $microgeniuse->user->id]) !!}
                         <span class="text-muted">posted at {{ $microgeniuse->created_at }}</span>
                     </div>
                     <div>
                         {{-- 投稿内容 --}}
                         <p class="mb-0">{!! nl2br(e($microgeniuse->content)) !!}</p>
                     </div>
+                    
+                    <div>
+                        @if (Auth::id() == $microgeniuse->user_id)
+                            {{-- 投稿削除ボタンのフォーム L15 C9.4 --}}
+                            {!! Form::open(['route' => ['microgeniuses.destroy', $microgeniuse->id], 'method' => 'delete']) !!}
+                                {!! Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) !!}
+                            {!! Form::close() !!}
+                        @endif
+                    </div>
+                    
                 </div>
             </li>
         @endforeach

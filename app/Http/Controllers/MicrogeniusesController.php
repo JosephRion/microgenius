@@ -15,7 +15,9 @@ class MicrogeniusesController extends Controller
             $user = \Auth::user();
             // ユーザの投稿の一覧を作成日時の降順で取得
             // （後のChapterで他ユーザの投稿も取得するように変更しますが、現時点L15 C9.3ではこのユーザの投稿のみ取得します）
-            $microgeniuses = $user->microgeniuses()->orderBy('created_at', 'desc')->paginate(3);
+            //$user->microposts() としていた部分を $user->feed_microposts() に変更しています。L15 C11.2 2022.08.14..1434TKT
+            $microgeniuses = $user->feed_microgeniuses()->orderBy('created_at', 'desc')->paginate(3);
+
 
             $data = [
                 'user' => $user,
@@ -48,7 +50,7 @@ class MicrogeniusesController extends Controller
     public function destroy($id)
     {
         // idの値で投稿を検索して取得
-        $microginiuse = \App\Microgeniuse::findOrFail($id);
+        $microgeniuse = \App\Microgeniuse::findOrFail($id);
 
         // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を削除
         //他者のMicropostを勝手に削除されないよう、ログインユーザのIDとMicropostの所有者のID（user_id）が一致しているかを調べている. 2022.08.14..1220TKT

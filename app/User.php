@@ -60,15 +60,18 @@ class User extends Authenticatable
     }
     
     /**
+     * L15 C9.1 投稿機能. 2022.08.15..1055 sugimoto
      * Microgeniuseの数をカウントする機能を追加
      * Userが持つMicrogeniuseの数をカウントするためのメソッドも作成
      * loadCount メソッドの引数に指定しているのはリレーション名
-     * 
+     * アクションでこのメソッドを $user->loadRelationshipCounts() のように呼び出し、ビューで $user->microposts_count のように件数を取得することになります。
      * このユーザに関係するモデルの件数をロードする。
      */
     public function loadRelationshipCounts()
     {
-        $this->loadCount(['microgeniuses', 'followings', 'followers']); //L15 C10.3で'followings', 'followers'を追記。
+        $this->loadCount(['microgeniuses', 'followings', 'followers', 'favorites']); //L15 C10.3で'followings', 'followers'を追記。//2022.08.15..1038 'favorites' を追加
+        
+        
     }
 
     /**
@@ -192,7 +195,7 @@ class User extends Authenticatable
      */
     public function favorites()// あるUserが複数の投稿をお気に入りしますので、その関係を定義するメソッドは複数形のfavorites(複数形) とするのがわかりやすいです。
     {
-        return $this->belongsToMany(Microgeniuse::class, 'favorites', 'user_id', 'microgeniuse_id')->withTimestamps(); //第一引数はUser::class が間違い
+        return $this->belongsToMany(Microgeniuse::class, 'favorites', 'user_id', 'microgeniuse_id')->withTimestamps(); //第一引数はMicrogeniuse::class
     }
     
     

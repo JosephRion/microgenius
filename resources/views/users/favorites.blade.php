@@ -12,7 +12,10 @@
             @include('users.navtabs')
             
             {{-- ユーザ一覧 --}}
-            @include('users.users')
+
+            @include('microgeniuses.microgeniuses')
+
+            
             
         </div>
     </div>

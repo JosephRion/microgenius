@@ -93,4 +93,51 @@ class UsersController extends Controller
         ]);
     }
     
+    
+    /**
+     * ユーザのfavorite お気に入り一覧ページを表示するアクション。
+     * フォロワー一覧ページを表示するアクションをのところを模倣して
+     * @param  $id  ユーザのid
+     * @return \Illuminate\Http\Response
+     * 参考
+     * public function followers($id)
+    {
+        // idの値でユーザを検索して取得
+        $user = User::findOrFail($id);
+
+        // 関係するモデルの件数をロード
+        $user->loadRelationshipCounts();
+
+        // ユーザのフォロワー一覧を取得
+        $followers = $user->followers()->paginate(10);
+
+        // フォロワー一覧ビューでそれらを表示
+        return view('users.followers', [
+            'user' => $user,
+            'users' => $followers,
+        ]);
+    }
+     */
+    public function favorites($id)  // お気に入り一覧を表示するコントローラのメソッドは、UsersControllerあっとfavoritesになります
+    {
+        // idの値でユーザを検索して取得
+        $user = User::findOrFail($id);
+
+        // 関係するモデルの件数をロード
+        $user->loadRelationshipCounts();
+
+        // ユーザのお気に入り一覧を取得
+        $favorites = $user->favorites()->paginate(10); //followers からfavoritesに置換
+        
+        // お気に入り一覧ビューでそれらを表示
+        return view('users.favorites', [ //第一引数には表示したいViewを指定。users.favorites は、resources/views/users/favorites.blade.php を意味します。
+            'user' => $user,  //第二引数にはそのViewに渡したいデータの配列を指定します。連想配列形式として第二引数にセットする必要があります。
+          
+            'microgeniuses' => $favorites, //このfavoritesメソッド内で $micopostsを定義している箇所はありませんよね。
+
+        ]);
+    }
+    
+    
+    
 }

@@ -5,20 +5,16 @@
     @if (Auth::check())
         <div class="row">
             <aside class="col-sm-4">
-                {{-- L15 C11.3 で ユーザー情報の1行に集約 
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">{{ Auth::user()->name }}</h3>
-                    </div>
-                    <div class="card-body">
-                         認証済みユーザのメールアドレスをもとにGravatarを取得して表示 
-                        <img class="rounded img-fluid" src="{{ Gravatar::get(Auth::user()->email, ['size' => 500]) }}" alt="">
-                    </div>
-                </div>--}}
+                
+
                 
                 {{-- ユーザ情報 L15 C11.3 --}}
                 @include('users.card')
+                
+                
+                
             </aside>
+            
             
             <div class="col-sm-8">
                 {{-- 投稿フォーム L15 C9.6 追加--}}

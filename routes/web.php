@@ -19,7 +19,7 @@
 //  Route::get('/', 'MicrogeniusesController@index');を導入したことにより、上記の定義は廃止。2022.08.13..2332TKT L15C9.2
 
 //上記の記述を下記のように変更し、Controller ( MicrogeniusesController@index ) を経由してwelcomeを表示するようにします。
-Route::get('/', 'MicrogeniusesController@index');
+Route::get('/', 'MicrogeniusesController@index');//Controller ( MicrogeniusesController@index ) を経由してwelcomeを表示する
 
 
 //L15 C6.2 Router RegistersUsersトレイト
@@ -44,10 +44,19 @@ Route::group(['middleware' => ['auth']], function () {
         Route::delete('unfollow', 'UserFollowController@destroy')->name('user.unfollow');
         Route::get('followings', 'UsersController@followings')->name('users.followings');
         Route::get('followers', 'UsersController@followers')->name('users.followers');
+        Route::get('favorites', 'UsersController@favorites')->name('users.favorites');    // 追加 L15 C13.1 お気に入り用に追加 2022.07.13..1413TKT
     });
     
     //L15 C8.2
     Route::resource('users', 'UsersController', ['only' => ['index', 'show']]);
+
+    // 追加L15 C13.1 お気に入り用に追加 ここから 2022.07.13..1415TKT
+    Route::group(['prefix' => 'microgeniuses/{id}'], function () {
+        Route::post('favorite', 'FavoritesController@store')->name('favorites.favorite');
+        Route::delete('unfavorite', 'FavoritesController@destroy')->name('favorites.unfavorite');
+    });
+    // 追加L15 C13.1 お気に入り用に追加 ここまで 2022.07.13..1415TKT
+    
     
     //L15C9.2 Router
     //認証を必要とするルーティンググループ内に、 Microgeniusesのルーティングを設定します（登録のstoreと削除のdestroyのみ）。

@@ -19,25 +19,23 @@
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ Auth::user()->name }}</a> {{--クリックしたら3段腹が出来る仕組み--}}
                         <ul class="dropdown-menu dropdown-menu-right">
                             
-                            {{-- L15 C8.4 UsersControllerユーザ詳細ページへのリンク --}}
-                            <li class="dropdown-item">{!! link_to_route('users.show', 'My profile', ['user' => Auth::id()]) !!}</li>
+                            {{-- L15 C8.4 UsersController自分のユーザ詳細ページへのリンク --}}
+                            {{--廃止<li class="dropdown-item">{!! link_to_route('users.show', 'My profile', ['user' => Auth::id()]) !!}</li> カリキュラム通りの記述だが、余白をクリックして青く反応しているにも関わらず、文字列をクリックしないと遷移しない。--}} 
+                            <li class="dropdown-item" onclick="location.href='{!! route('users.show',  ['user' => Auth::id()]) !!}'"> <a href='{!! route('users.show',  ['user' => Auth::id()]) !!}'"> My profile </a> </li>{{-- JavaScriptで余白クリックも反応する記述 2022.08.15..1503TKT --}}
                             
                             <li class="dropdown-divider"></li> {{-- 横棒線 --}}
                             
                             {{-- お気に入り投稿一覧ページへのリンク --}}
-                            <li class="dropdown-item">
+                            {{--廃止<li class="dropdown-item">   {!! link_to_route('users.favorites', 'Favorite', ['id' => Auth::id()]) !!}  </li> 機能する2ndリンク。カリキュラム通りの記述だが、余白をクリックして青く反応しているにも関わらず、文字列をクリックしないと遷移しない。--}} 
+                            <li class="dropdown-item" onclick="location.href='{!! route('users.favorites',  ['id' => Auth::id()]) !!}'"> <a href="{!! route('users.favorites', ['id' => Auth::id()]) !!}"> Favorite </a> </li>{{-- JavaScriptで余白クリックも反応する記述 2022.08.15..1503TKT ito-msメンター --}}
                                 
-{{--これが機能するより良いリンクの2つ目--}}{!! link_to_route('users.favorites', 'Favorite', ['id' => Auth::id()]) !!}
-
-                            </li>
-                            
                             <li class="dropdown-divider"></li>{{-- 横棒線 --}}
 
                             {{-- ログアウトへのリンク --}}
-                            <li class="dropdown-item">{!! link_to_route('logout.get', 'Logout') !!}</li>
+                            {{--廃止<li class="dropdown-item">{!! link_to_route('logout.get', 'Logout') !!}</li> カリキュラム通りの記述だが、余白をクリックして青く反応しているにも関わらず、文字列をクリックしないと遷移しない。--}} 
+                            <li class="dropdown-item" onclick="location.href='{!! route('logout.get', 'Logout') !!}'"> <a href='{!! route('logout.get', 'Logout') !!}'"> Logout </a> </li>{{-- JavaScriptで余白クリックも反応する記述 2022.08.15..1503TKT --}}
                         
                         </ul> {{--<ul class="dropdown-menu dropdown-menu-right">の閉じカッコ--}}
-
                     </li>
                 @else
                     {{-- ユーザ登録ページへのリンク --}}

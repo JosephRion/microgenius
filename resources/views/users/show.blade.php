@@ -4,7 +4,7 @@
 {{--L15 C8.4 UsersControllerなどあったが、L15 C10.4 show で大幅に書き換え--}}
     <div class="row">
         <aside class="col-sm-4">
-            {{-- ユーザ情報 --}}
+            {{-- ユーザ情報 microgenius/resources/views/users/show.blade.php--}} 
             @include('users.card')
         </aside>
         
@@ -14,7 +14,6 @@
             
             @if (Auth::id() == $user->id)
                 {{-- 投稿フォーム --}}
-                
                 @include('microgeniuses.form')
             @endif
             {{-- 投稿一覧 --}}

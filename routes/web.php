@@ -45,10 +45,13 @@ Route::group(['middleware' => ['auth']], function () {
     //Route::resource('users', 'UsersController', ['only' => ['index', 'show']]); //| GET|HEAD | users                         | users.index           | App\Http\Controllers\UsersController@index                        | web,auth     |
                                                                                   //| GET|HEAD | users/{user}                  | users.show            | App\Http\Controllers\UsersController@show                         | web,auth     |
     Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'update' ]]); //updateも追加されました。2022.08.17..2445TKT |        | PUT|PATCH | users/{user}                  | users.update          | App\Http\Controllers\UsersController@update                       | web,auth     |
-                                                                                
+    Route::put('users{user}', 'UsersController@updatepass')->name('users.updatepass'); //パスワードのアップロード専用のルーティングの設定。2022.08.18..1606TKT php artisan route:list
+    
     //参考Route::get('microgeniuses/{id}/edit', 'MicrogeniusesController@edit')->name('microgeniuses.edit'); 
     Route::get('users/{id}/edit', 'UsersController@edit')->name('users.edit'); //プロフィールの編集
     //php artisan route:list によって上のindex, showに追加してupdateを設定した。| GET|HEAD  | users/{id}/edit               | users.edit            | App\Http\Controllers\UsersController@edit                         | web,auth     |
+    Route::get('users/{id}/editpass', 'UsersController@editpass')->name('users.editpass');//プロフィールの中のパスワードの編集 2022.08.18..1541TKT
+    //php artisan route:list によってパスワードの編集 | GET|HEAD  | users/{id}/editpass           | users.editpass        | App\Http\Controllers\UsersController@editpass                     | web,auth     |
     
     ////---------------------------------------------------------------//---------------------------------------------------------------//---------------------------------------------------------------
     //microgeniuses
@@ -65,6 +68,8 @@ Route::group(['middleware' => ['auth']], function () {
     //Route::resource('microgeniuses', 'MicrogeniusesController', ['only' => ['store', 'destroy']]);  //| POST     | microgeniuses                 | microgeniuses.store   | App\Http\Controllers\MicrogeniusesController@store                | web,auth     |
     //store, destroyに updateを追加。
     Route::resource('microgeniuses', 'MicrogeniusesController', ['only' => ['store', 'destroy', 'update' ]]);  //|        | PUT|PATCH | microgeniuses/{microgenius}   | microgeniuses.update  | App\Http\Controllers\MicrogeniusesController@update               | web,auth     |
+    
+    
     //投稿の編集ページのURLへのアクセスが有った時の処理。//投稿の編集。まずは投稿の編集から。2022.08.17..1135TKT
     Route::get('microgeniuses/{id}/edit', 'MicrogeniusesController@edit')->name('microgeniuses.edit'); //投稿の編集。ルーティングを通すために、まずこっちでやってみる。2022.08.17..1153TKT
                                                                                     //| DELETE   | microgeniuses/{microgenius}   | microgeniuses.destroy | App\Http\Controllers\MicrogeniusesController@destroy              | web,auth     |

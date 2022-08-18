@@ -30,17 +30,12 @@ microgenius/resources/views/users/edit.blade.php
                     {!! Form::label('email', 'Email (必須) :') !!}
                     {!! Form::text('email', null, ['class' => 'form-control']) !!}
                     
-                    {{-- パスワードは別ページで編集
-                    {!! Form::label('content', 'Password:') !!}
-                    {!! Form::text('content', null, ['class' => 'form-control']) !!}
-                    
-                    {!! Form::label('content', 'Password (confirm):') !!}
-                    {!! Form::text('content', null, ['class' => 'form-control']) !!}
-                    --}}
                     
                 </div>
                 
-                {!! Form::submit('Update!', ['class' => 'btn btn-primary']) !!}  {{--更新ボタン--}}<br><br><br>（※ なお、パスワードの変更は⇒ こちらのリンクから おこなえます。）
+                {!! Form::submit('Update!', ['class' => 'btn btn-primary']) !!}  {{--更新ボタン--}}<br><br><br>
+                （※ なお、パスワードの変更は⇒  
+                <a href='{!! route('users.editpass',  ['id' => Auth::id()] , ['class' => 'btn btn-light ']) !!}'"> こちらのリンク </a> からおこなえます。）
             {!! Form::close() !!}
         </div><br>
     </div>

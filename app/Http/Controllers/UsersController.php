@@ -138,8 +138,8 @@ class UsersController extends Controller
         // プロフィール編集ビューでそれを表示
         return view('users.edit', [ //ここは複数形でusers
             'user' => $user, //ここは単数形ふたつともuser
-            'name' => $user,
-            'email' => $user
+            //'name' => $user,
+            //'email' => $user
             
         ]);//ifで囲われた条件でこれを実行する。
         } //ifの閉じ括弧。
@@ -149,6 +149,38 @@ class UsersController extends Controller
          }
     } //public function editの閉じ括弧
     
+    //---------------------------------------------------------------//---------------------------------------------------------------
+    /**
+     * 'password' => $user, //ここは単数形ふたつともpassword            
+     * この記述はControllerで用意した$userの中身(ユーザー情報)をviewファイルに$passwordという名前で使用できるようにするという意味になります。
+     * 「$userの中身(ユーザー情報)をviewファイルに$passwordという名前で使用」というのは少しおかしくないでしょうか？
+     * viewで使用する名称 => viewに渡したい情報
+     * というルールになります。
+     *  'user' => $user, 
+     * ここは$userの中身(ユーザー情報)をviewで$userという変数名で使用できるようにするという意味になるので問題ないと思います。
+     * 'password' => $password,
+     * この$passwordはどこから登場しましたか？「変数は定義されていないと使用できない」ので現状だとエラーになると思います。
+     * また、ここで指定するのは Viewで変数を使用したいから です。viewで変数を使用しないのであればここに指定は不要です。 $passwordという変数はviewで必要でしょうか？
+     * 
+     * 
+    **/
+    //パスワード用の編集editpass
+     //L13 C8.7 MessagesControllerあっとedit 参照
+    public function editpass($id)
+    {
+        // idの値でユーザを検索して取得
+        $user = User::findOrFail($id); //Microgeniuseからuserへ //ここで$userを定義しておく
+        
+        if (\Auth::id() === $user->id) { //条件文を書き換え
+        return view('users.editpass', [ // プロフィール編集ビューでそれを表示//ここは複数形でusers
+            'user' => $user, //ここは単数形ふたつとも
+        ]);
+        } //ifの閉じ括弧。
+         else { //自分がログインしているuser_idじゃない投稿IDのURLを直打ちした場合にはトップページに返す。
+            return redirect('/'); // トップページへリダイレクトさせる
+         }
+    } //public function editpassの閉じ括弧
+
     //Lesson 13Chapter 8.8 MessagesController あっとupdate 2022.08.15追加。 2022.08.18追加。
     // put(updateのこと)またはpatchでusers/idにアクセスされた場合の「更新処理」
     public function update(Request $request, $id)
@@ -157,6 +189,8 @@ class UsersController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|max:255',
+            //'password' => 'required|confirmed',
+            
         ]);
         
         // idの値でプロフィールを検索して取得
@@ -165,6 +199,7 @@ class UsersController extends Controller
         // $message->hobby = $request->hobby;    // L13C10.2カラム追加
         $user->name = $request->name;
         $user->email = $request->email;
+        //$user->password = $request->password;
         //$user->hobby = $request->hobby;
         
         $user->save();
@@ -172,5 +207,42 @@ class UsersController extends Controller
         // トップページへリダイレクトさせる
         return redirect('/');
     } //public function updateの閉じ括弧
+    
+    
+    
+    
+    
+    /**
+     * microgenius/app/Http/Controllers/Auth/RegisterController.phpによると
+                protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'], //name は必須で、文字列、最大255文字まで
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'], //emailは必須で、文字列、'email', 最大255文字まで, 既存のレコードに無いemailであること。
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+    }
+    **/
+    
+    //パスワード専用のupdate
+    public function updatepass(Request $request, $id)
+    {
+        //バリデーション
+        $request->validate([
+            'password' => 'required|confirmed',
+            
+        ]);
+        
+        // idの値でプロフィールを検索して取得
+        $user = User::findOrFail($id);
+        // プロフィールを更新
+        $user->password = $request->password;
+        
+        $user->save();
+        // トップページへリダイレクトさせる
+        return redirect('/');
+    } //public function updateの閉じ括弧
+    
+    
     
 }

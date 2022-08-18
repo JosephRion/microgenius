@@ -6,15 +6,10 @@
         <div class="row">
             <aside class="col-sm-4">
                 
-
-                
                 {{-- ユーザ情報 L15 C11.3 --}}
                 @include('users.card')
                 
-                
-                
             </aside>
-            
             
             <div class="col-sm-8">
                 {{-- 投稿フォーム L15 C9.6 追加--}}

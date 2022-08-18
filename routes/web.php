@@ -1,10 +1,8 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
 | Here is where you can register web routes for your application. These 
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
@@ -26,6 +24,8 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login'); //| Me
 Route::post('login', 'Auth\LoginController@login')->name('login.post'); // | Method=POST | URI=login | Name=login.post | Action=App\Http\Controllers\Auth\LoginController@login                   | web,guest    |
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get'); //| Method=GET|HEAD | URI=logout | Name=logout.get | Action=App\Http\Controllers\Auth\LoginController@logout                  | web          |
 
+
+////---------------------------------------------------------------//---------------------------------------------------------------//---------------------------------------------------------------
 //L15 C8.2//Router認証付きのルーティング //これで、認証済みのユーザだけがこれらのアクションにアクセスできます。
 Route::group(['middleware' => ['auth']], function () {
     //Users
@@ -41,10 +41,14 @@ Route::group(['middleware' => ['auth']], function () {
         //必要なのが「messages/{id}/edit」であれば、prefixのブロックの内側に配置するのはおかしい気がします。
     }); //Route::group(['prefix' => 'users/{id}'], function () の閉じ括弧
     
-    //L15 C8.2
-    Route::resource('users', 'UsersController', ['only' => ['index', 'show']]); //| GET|HEAD | users                         | users.index           | App\Http\Controllers\UsersController@index                        | web,auth     |
-                                                                                //| GET|HEAD | users/{user}                  | users.show            | App\Http\Controllers\UsersController@show                         | web,auth     |
-    //Route::get('profile/{id}/edit', 'ProfileController@edit')->name('profile.edit'); //プロフィールの編集             
+    //L15 C8.2 7つのうち、ここではindexとshowの２つしか使用していない。下でUpdateもいれる。
+    //Route::resource('users', 'UsersController', ['only' => ['index', 'show']]); //| GET|HEAD | users                         | users.index           | App\Http\Controllers\UsersController@index                        | web,auth     |
+                                                                                  //| GET|HEAD | users/{user}                  | users.show            | App\Http\Controllers\UsersController@show                         | web,auth     |
+    Route::resource('users', 'UsersController', ['only' => ['index', 'show', 'update' ]]); //updateも追加されました。2022.08.17..2445TKT |        | PUT|PATCH | users/{user}                  | users.update          | App\Http\Controllers\UsersController@update                       | web,auth     |
+                                                                                
+    //参考Route::get('microgeniuses/{id}/edit', 'MicrogeniusesController@edit')->name('microgeniuses.edit'); 
+    Route::get('users/{id}/edit', 'UsersController@edit')->name('users.edit'); //プロフィールの編集
+    //php artisan route:list によって上のindex, showに追加してupdateを設定した。| GET|HEAD  | users/{id}/edit               | users.edit            | App\Http\Controllers\UsersController@edit                         | web,auth     |
     
     ////---------------------------------------------------------------//---------------------------------------------------------------//---------------------------------------------------------------
     //microgeniuses

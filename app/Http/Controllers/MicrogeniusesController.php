@@ -72,7 +72,7 @@ class MicrogeniusesController extends Controller
     {
         // idの値でメッセージを検索して取得
         $microgeniuse = Microgeniuse::findOrFail($id); //MessageからMicrogeniuseへ //ここで$microgeniuseを定義しておく
-        
+        //findOrFailについて、findと同じく、指定されたレコードを取得しますが、findOrFail はレコードが存在しない時に404エラー（Not foundエラー）を出します。
         if (\Auth::id() === $microgeniuse->user_id) {//削除を実行する部分は、if文で囲みました。
         // メッセージ編集ビューでそれを表示
         return view('microgeniuses.edit', [ //ここは複数形でmicrogeniuses
@@ -92,7 +92,6 @@ class MicrogeniusesController extends Controller
     {
         //バリデーション
         $request->validate([
-            //'hobby' => 'required|max:255',   // L13C10.2カラム追加 2
             'content' => 'required|max:255',
         ]);
         

@@ -7,6 +7,8 @@ message-board/resources/views/messages/edit.blade.php
 
 このファイルは
 microgenius/resources/views/microgeniuses/edit.blade.php
+
+こっちは投稿内容の編集
 --}}
 
     <h1>id: {{ $microgeniuse->id }} のメッセージ編集ページ</h1>

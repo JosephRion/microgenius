@@ -12,11 +12,8 @@
             @include('users.navtabs')
             
             {{-- ユーザ一覧 --}}
-
             @include('microgeniuses.microgeniuses')
 
-            
-            
         </div>
     </div>
 @endsection

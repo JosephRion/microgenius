@@ -1,11 +1,13 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\User; // 追加
+use App\User; // 追加 microgenius/app/Http/Controllers/MicrogeniusesController.php ではuse App\Microgeniuse; を追加したが、
+//こっちmicrogenius/app/Http/Controllers/UsersController.phpでは既に追加していた。 2022.08.17..2600TKT
 
+//このファイルで 1index, 2show, 3followings, 4followers, 5favorites,の５つのfunctionを規定していた。
+//追加で、editと、updateとの２つも規定しなければならない。2022.08.17..2455TKT
 class UsersController extends Controller
 {
     public function index()
@@ -136,8 +138,53 @@ class UsersController extends Controller
             'microgeniuses' => $favorites, //このfavoritesメソッド内で $micopostsを定義している箇所はありませんよね。
 
         ]);
-    }
+    } //public function favoritesの閉じ括弧
+    
+    //---------------------------------------------------------------//---------------------------------------------------------------//---------------------------------------------------------------
+    //追加で、editと、updateとの２つも規定しなければならない。2022.08.17..2455TKT この下に追加する。
     
     
+    //L13 C8.7 MessagesControllerあっとedit 参照
+    public function edit($id)
+    {
+        // idの値でユーザを検索して取得
+        $user = User::findOrFail($id); //Microgeniuseからuserへ //ここで$userを定義しておく
+        
+        //if (\Auth::id() === $user->user_id) {//編集を実行する部分は、if文で囲みました。@if (Auth::id() == $user->id)だった。 microgenius/resources/views/users/card.blade.phpでは 
+        if (\Auth::id() === $user->id) { //条件文を書き換え
+        // プロフィール編集ビューでそれを表示
+        return view('users.edit', [ //ここは複数形でusers
+            'user' => $user, //ここは単数形ふたつともuser
+            'name' => $user,
+            'email' => $user
+            
+        ]);//ifで囲われた条件でこれを実行する。
+        } //ifの閉じ括弧。
+         else { //自分がログインしているuser_idじゃない投稿IDのURLを直打ちした場合にはトップページに返す。
+            // トップページへリダイレクトさせる
+            return redirect('/');
+         }
+    } //public function editの閉じ括弧
+    
+    //Lesson 13Chapter 8.8 MessagesController あっとupdate 2022.08.15追加。 2022.08.18追加。
+    // put(updateのこと)またはpatchでusers/idにアクセスされた場合の「更新処理」
+    public function update(Request $request, $id)
+    {
+        //バリデーション
+        $request->validate([
+            'content' => 'required|max:255',
+        ]);
+        
+        // idの値でプロフィールを検索して取得
+        $user = User::findOrFail($id);
+        // プロフィールを更新
+        // $message->hobby = $request->hobby;    // L13C10.2カラム追加
+        $user->content = $request->content;
+        
+        $user->save();
+
+        // トップページへリダイレクトさせる
+        return redirect('/');
+    } //public function updateの閉じ括弧
     
 }

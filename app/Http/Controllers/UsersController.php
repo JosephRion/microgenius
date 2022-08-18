@@ -101,25 +101,8 @@ class UsersController extends Controller
      * フォロワー一覧ページを表示するアクションをのところを模倣して
      * @param  $id  ユーザのid
      * @return \Illuminate\Http\Response
-     * 参考
-     * public function followers($id)
-    {
-        // idの値でユーザを検索して取得
-        $user = User::findOrFail($id);
-
-        // 関係するモデルの件数をロード
-        $user->loadRelationshipCounts();
-
-        // ユーザのフォロワー一覧を取得
-        $followers = $user->followers()->paginate(10);
-
-        // フォロワー一覧ビューでそれらを表示
-        return view('users.followers', [
-            'user' => $user,
-            'users' => $followers,
-        ]);
-    }
      */
+     //findOrFailについて、findと同じく、指定されたレコードを取得しますが、findOrFail はレコードが存在しない時に404エラー（Not foundエラー）を出します。
     public function favorites($id)  // お気に入り一覧を表示するコントローラのメソッドは、UsersControllerあっとfavoritesになります
     {
         // idの値でユーザを検索して取得
@@ -172,14 +155,17 @@ class UsersController extends Controller
     {
         //バリデーション
         $request->validate([
-            'content' => 'required|max:255',
+            'name' => 'required|max:255',
+            'email' => 'required|max:255',
         ]);
         
         // idの値でプロフィールを検索して取得
         $user = User::findOrFail($id);
         // プロフィールを更新
         // $message->hobby = $request->hobby;    // L13C10.2カラム追加
-        $user->content = $request->content;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        //$user->hobby = $request->hobby;
         
         $user->save();
 

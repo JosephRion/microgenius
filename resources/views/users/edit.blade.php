@@ -14,36 +14,34 @@ microgenius/resources/views/users/edit.blade.php
     <h1>{{--id: {{ $user->id }} --}}ご自身のプロフィール編集ページ</h1>
             {{-- L15 C10.4 view でファイル新規作成ユーザのメールアドレスをもとにGravatarを取得して表示 --}}
         <p><img class="rounded img-fluid" src="{{ Gravatar::get($user->email, ['size' => 200]) }}" alt=""></p>
-<p>プロフィール画像は、Gravatar のウェブサイト<br>
-<a href="https://ja.gravatar.com/" target="_blank" rel="noopener noreferrer">https://ja.gravatar.com/</a>
-<br>で、メールアドレスとプロフィール写真を<br>
-登録（無料）していただくと、更新できます。</p>
-<p>プロフィール画像を埋め込みたい方は<br>
-<a href="https://ja.gravatar.com/" target="_blank" rel="noopener noreferrer">https://ja.gravatar.com/</a>
-<br>に行っていただき、<br>
-メールアドレスでご自身のアカウントを作成し、<br>
-そこにプロフィール写真をアップロードしてご登録ください。</p>
+<p>プロフィール画像を登録したい場合は、<br>
+<a href="https://ja.gravatar.com/" target="_blank" rel="noopener noreferrer">Gravatar のウェブサイト https://ja.gravatar.com/</a>
+<br>にて、メールアドレスとプロフィール写真を<br>
+登録（無料）していただくと、こちらのプロフィール画像として表示されます。</p>
+
     <div class="row">
         <div class="col-6">
             {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'put']) !!}
                 <div class="form-group">
                     
-                    {!! Form::label('content', 'Name:') !!}
-                    {!! Form::text('content', null, ['class' => 'form-control']) !!}
+                    {!! Form::label('name', 'Name (必須) :') !!}
+                    {!! Form::text('name', null, ['class' => 'form-control']) !!}
                     
-                    {!! Form::label('content', 'Email:') !!}
-                    {!! Form::text('content', null, ['class' => 'form-control']) !!}
+                    {!! Form::label('email', 'Email (必須) :') !!}
+                    {!! Form::text('email', null, ['class' => 'form-control']) !!}
                     
+                    {{-- パスワードは別ページで編集
                     {!! Form::label('content', 'Password:') !!}
                     {!! Form::text('content', null, ['class' => 'form-control']) !!}
                     
                     {!! Form::label('content', 'Password (confirm):') !!}
                     {!! Form::text('content', null, ['class' => 'form-control']) !!}
+                    --}}
                     
                 </div>
                 
-                {!! Form::submit('Update!', ['class' => 'btn btn-primary']) !!}  {{--更新ボタン--}}
+                {!! Form::submit('Update!', ['class' => 'btn btn-primary']) !!}  {{--更新ボタン--}}<br><br><br>（※ なお、パスワードの変更は⇒ こちらのリンクから おこなえます。）
             {!! Form::close() !!}
-        </div>
+        </div><br>
     </div>
 @endsection

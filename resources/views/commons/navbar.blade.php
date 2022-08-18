@@ -20,8 +20,14 @@
                         <ul class="dropdown-menu dropdown-menu-right">
                             
                             {{-- L15 C8.4 UsersController自分のユーザ詳細ページへのリンク --}}
-                            {{--廃止<li class="dropdown-item">{!! link_to_route('users.show', 'My profile', ['user' => Auth::id()]) !!}</li> カリキュラム通りの記述だが、余白をクリックして青く反応しているにも関わらず、文字列をクリックしないと遷移しない。--}} 
-                            <li class="dropdown-item" onclick="location.href='{!! route('users.show',  ['user' => Auth::id()]) !!}'"> <a href='{!! route('users.show',  ['user' => Auth::id()]) !!}'"> My profile </a> </li>{{-- JavaScriptで余白クリックも反応する記述 2022.08.15..1503TKT --}}
+                            {{--廃止      <li class="dropdown-item">{!! link_to_route('users.show', 'My profile', ['user' => Auth::id()]) !!}</li> カリキュラム通りの記述だが、余白をクリックして青く反応しているにも関わらず、文字列をクリックしないと遷移しない。--}} 
+                            <li class="dropdown-item" onclick="location.href='{!! route('users.show',  ['user' => Auth::id()]) !!}'"> <a href='{!! route('users.show',  ['user' => Auth::id()]) !!}'"> My profile </a> </li>   {{-- JavaScriptで余白クリックも反応する記述 2022.08.15..1503TKT --}}
+                            
+                            <li class="dropdown-divider"></li> {{-- 横棒線 --}}
+              {{--問題有り。<li class="dropdown-item" onclick="location.href='{!! route('users.edit',  ['id' => $user->id] , ['class' => 'btn btn-light ']) !!}'"> <a href='{!! route('users.edit',  ['id' => $user->id] , ['class' => 'btn btn-light ']) !!}'"> Edit profile </a> </li>--}} 
+                            {{--問題なのはルートパラメータに指定する情報です。 $user を使用するとControllerから情報を渡さないといけませんので、 Auth::id() を使用する必要があります。--}}
+                            <li class="dropdown-item" onclick="location.href='{!! route('users.edit',  ['id' => Auth::id()] , ['class' => 'btn btn-light ']) !!}'"> <a href='{!! route('users.edit',  ['id' => Auth::id()] , ['class' => 'btn btn-light ']) !!}'"> Edit profile </a> </li>
+                            
                             
                             <li class="dropdown-divider"></li> {{-- 横棒線 --}}
                             

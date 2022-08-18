@@ -53,8 +53,10 @@ class MicrogeniusesController extends Controller
     {
                 // idの値で投稿を検索して取得
                 //$microgeniuse = \App\Microgeniuse::findOrFail($id); //
-        $microgeniuse = Microgeniuse::findOrFail($id); //名前空間を指定するには (1) App\Message のように名前空間 + クラス名を指定する (2)ファイルの先頭に use App\Message; と指定する,のどちらかにしてください。
-                //統一されているのが望ましいので、②を採用するのであれば App\Message は Message に統一した方が良いですね。
+        $microgeniuse = Microgeniuse::findOrFail($id); 
+        //名前空間を指定するには (1) App\Message のように名前空間 + クラス名を指定する (2)ファイルの先頭に use App\Message; と指定する,のどちらかにしてください。
+        //統一されているのが望ましいので、②を採用するのであれば App\Message は Message に統一した方が良いですね。
+        //findOrFailについて、findと同じく、指定されたレコードを取得しますが、findOrFail はレコードが存在しない時に404エラー（Not foundエラー）を出します。
 
                 // 認証済みユーザ（閲覧者）がその投稿の所有者である場合は、投稿を削除
                 //他者のMicropostを勝手に削除されないよう、ログインユーザのIDとMicropostの所有者のID（user_id）が一致しているかを調べている. 2022.08.14..1220TKT

@@ -6,8 +6,15 @@ use Illuminate\Http\Request;
 use App\User; // 追加 microgenius/app/Http/Controllers/MicrogeniusesController.php ではuse App\Microgeniuse; を追加したが、
 //こっちmicrogenius/app/Http/Controllers/UsersController.phpでは既に追加していた。 2022.08.17..2600TKT
 
+//https://readouble.com/laravel/6.x/ja/validation.html#rule-unique
+//指定されたIDのuniqueルールを無視する
+use Illuminate\Validation\Rule; //自分のメールアドレスを修正しなくても更新できるようにするための use//Rule::uniqueを使う際も名前空間の指定が必要なので、
+use Illuminate\Support\Facades\Validator;
 //このファイルで 1index, 2show, 3followings, 4followers, 5favorites,の５つのfunctionを規定していた。
 //追加で、editと、updateとの２つも規定しなければならない。2022.08.17..2455TKT
+//use App\Http\Controllers\Controller; //名前空間が同じなので、そのuseは不要で大丈夫かと思います
+use Illuminate\Support\Facades\Hash; //パスワードのハッシュファサードのために追加2022.08.19..2242TKT
+
 class UsersController extends Controller
 {
     public function index()
@@ -42,7 +49,6 @@ class UsersController extends Controller
             'user' => $user,
             'microgeniuses' => $microgeniuses,
         ]);
-        
     }
     
     /**
@@ -181,36 +187,38 @@ class UsersController extends Controller
          }
     } //public function editpassの閉じ括弧
 
+
+
     //Lesson 13Chapter 8.8 MessagesController あっとupdate 2022.08.15追加。 2022.08.18追加。
     // put(updateのこと)またはpatchでusers/idにアクセスされた場合の「更新処理」
     public function update(Request $request, $id)
     {
-        //バリデーション
-        $request->validate([
-            'name' => 'required|max:255',
-            'email' => 'required|max:255',
-            //'password' => 'required|confirmed',
-            
-        ]);
+        //バリデーション //更新のときには、既に自分が登録したメールアドレスは受け入れてもらえるようにしなければいけないから、記述を修正。
+        //$request->validate([
+        //    'name' => 'required|max:255',
+        //    'email' => 'required|string|email|max:255|unique:users', //
+        //]);
+        //  https://readouble.com/laravel/6.x/ja/validation.html#rule-unique
+        //  指定されたIDのuniqueルールを無視する
+        
+        Validator::make($request, [  ///$data は未定義とのこと。名前はsignup 時と同じ条件 microgenius/app/Http/Controllers/Auth/RegisterController.php
+            'name' => ['required', 'string', 'max:255'], //name は必須で、文字列、最大255文字まで
+            'email' => [ 'required', 'string', 'email', 'max:255',  Rule::unique('users')->ignore($user->id), ],  //user未定義
+            ]);
         
         // idの値でプロフィールを検索して取得
         $user = User::findOrFail($id);
+        
         // プロフィールを更新
         // $message->hobby = $request->hobby;    // L13C10.2カラム追加
         $user->name = $request->name;
         $user->email = $request->email;
-        //$user->password = $request->password;
-        //$user->hobby = $request->hobby;
         
         $user->save();
 
         // トップページへリダイレクトさせる
         return redirect('/');
     } //public function updateの閉じ括弧
-    
-    
-    
-    
     
     /**
      * microgenius/app/Http/Controllers/Auth/RegisterController.phpによると
@@ -222,21 +230,30 @@ class UsersController extends Controller
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
+    $request->validate  と Validator::make は
+どう違うのでしょうか。カリキュラムには記載されていないと思います
+どちらもバリデーションを行うという点では同じです。
+$request->validate の方だと | で文字列を区切って表記するため、今回使いたい
+Rule::unique('users')->ignore($user->id),
+を記述することができないです。今回は、配列でバリデーションを定義するValidator::makeの利用が必要になります。
     **/
     
-    //パスワード専用のupdate
+    // パスワード専用のupdate
     public function updatepass(Request $request, $id)
     {
         //バリデーション
         $request->validate([
-            'password' => 'required|confirmed',
+            'password' => 'required|string|min:8|confirmed', 
             
         ]);
         
         // idの値でプロフィールを検索して取得
         $user = User::findOrFail($id);
         // プロフィールを更新
-        $user->password = $request->password;
+        // $user->password = $request->password; //passwordのファサードの前のコマンド
+            // microgenius/app/Http/Controllers/Auth/RegisterController.php というファイルによると
+            // 'password' => Hash::make($data['password']), //ここでhash ファサードされている。となっている
+            $user->password = Hash::make($request->password);  // L15 C6.1 Modeo にて $user->password = Hash::make($request->password);
         
         $user->save();
         // トップページへリダイレクトさせる

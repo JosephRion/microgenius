@@ -19,13 +19,25 @@ microgenius/resources/views/users/edit.blade.php
     <div class="row">
         <div class="col-6">
             {!! Form::model($user, ['route' => ['users.updatepass', $user->id], 'method' => 'put']) !!}
+                {{-- パスワードの形式にあわせる
                 <div class="form-group">
                     {!! Form::label('password', 'Password (at least 8 characters needed):') !!}
                     {!! Form::text('password', null, ['class' => 'form-control']) !!}
                     
                     {!! Form::label('password', 'Password (confirm):') !!}
                     {!! Form::text('password', null, ['class' => 'form-control']) !!}
-                    
+                </div>--}}
+                
+                
+                {{--microgenius/resources/views/auth/register.blade.php には、こう書いてある。--}}
+                <div class="form-group">
+                    {!! Form::label('password', 'Password (at least 8 characters needed)') !!}
+                    {!! Form::password('password', ['class' => 'form-control']) !!}
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('password_confirmation', 'Confirmation') !!}
+                    {!! Form::password('password_confirmation', ['class' => 'form-control']) !!}
                 </div>
                 
                 {!! Form::submit('パスワードをUpdate!', ['class' => 'btn btn-primary']) !!}  {{--更新ボタン--}}<br><br><br>（※ なお、プロフィールのうち、名前、メールアドレスなどの項目の編集は⇒ <a

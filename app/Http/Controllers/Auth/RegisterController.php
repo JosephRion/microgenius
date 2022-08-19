@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule; // https://readouble.com/laravel/6.x/ja/validation.html#rule-unique
 
 class RegisterController extends Controller
 {
@@ -51,8 +52,9 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'], //name は必須で、文字列、最大255文字まで
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'], //emailは必須で、文字列、'email', 最大255文字まで, 既存のレコードに無いemailであること。
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'], //emailは必須で、文字列、'email'形式であること, 最大255文字まで, 既存のレコードに無いemailであること。
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            
         ]);
     }
 
@@ -67,7 +69,7 @@ class RegisterController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'password' => Hash::make($data['password']), //ここでhash ファサードされている。
         ]);
     }
 }

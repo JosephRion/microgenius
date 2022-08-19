@@ -22,15 +22,15 @@ microgenius/resources/views/users/edit.blade.php
     <div class="row">
         <div class="col-6">
             {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'put']) !!}
+            {{-- microgenius/resources/views/auth/register.blade.php の形式をそのまま流用  --}}
                 <div class="form-group">
-                    
-                    {!! Form::label('name', 'Name (必須) :') !!}
+                    {!! Form::label('name', 'Name（必須）：') !!}
                     {!! Form::text('name', null, ['class' => 'form-control']) !!}
-                    
-                    {!! Form::label('email', 'Email (必須) :') !!}
-                    {!! Form::text('email', null, ['class' => 'form-control']) !!}
-                    
-                    
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('email', 'Email（必須）：') !!}
+                    {!! Form::email('email', null, ['class' => 'form-control']) !!}
                 </div>
                 
                 {!! Form::submit('Update!', ['class' => 'btn btn-primary']) !!}  {{--更新ボタン--}}<br><br><br>

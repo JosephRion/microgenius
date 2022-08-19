@@ -131,30 +131,7 @@ class UsersController extends Controller
     
     //---------------------------------------------------------------//---------------------------------------------------------------//---------------------------------------------------------------
     //追加で、editと、updateとの２つも規定しなければならない。2022.08.17..2455TKT この下に追加する。
-    
-    
-    //L13 C8.7 MessagesControllerあっとedit 参照
-    public function edit($id)
-    {
-        // idの値でユーザを検索して取得
-        $user = User::findOrFail($id); //Microgeniuseからuserへ //ここで$userを定義しておく
-        
-        //if (\Auth::id() === $user->user_id) {//編集を実行する部分は、if文で囲みました。@if (Auth::id() == $user->id)だった。 microgenius/resources/views/users/card.blade.phpでは 
-        if (\Auth::id() === $user->id) { //条件文を書き換え
-        // プロフィール編集ビューでそれを表示
-        return view('users.edit', [ //ここは複数形でusers
-            'user' => $user, //ここは単数形ふたつともuser
-            //'name' => $user,
-            //'email' => $user
-            
-        ]);//ifで囲われた条件でこれを実行する。
-        } //ifの閉じ括弧。
-         else { //自分がログインしているuser_idじゃない投稿IDのURLを直打ちした場合にはトップページに返す。
-            // トップページへリダイレクトさせる
-            return redirect('/');
-         }
-    } //public function editの閉じ括弧
-    
+
     //---------------------------------------------------------------//---------------------------------------------------------------
     /**
      * 'password' => $user, //ここは単数形ふたつともpassword            
@@ -186,40 +163,8 @@ class UsersController extends Controller
             return redirect('/'); // トップページへリダイレクトさせる
          }
     } //public function editpassの閉じ括弧
+    //---------------------------------------------------------------
 
-
-
-    //Lesson 13Chapter 8.8 MessagesController あっとupdate 2022.08.15追加。 2022.08.18追加。
-    // put(updateのこと)またはpatchでusers/idにアクセスされた場合の「更新処理」
-    public function update(Request $request, $id)
-    {
-        //バリデーション //更新のときには、既に自分が登録したメールアドレスは受け入れてもらえるようにしなければいけないから、記述を修正。
-        //$request->validate([
-        //    'name' => 'required|max:255',
-        //    'email' => 'required|string|email|max:255|unique:users', //
-        //]);
-        //  https://readouble.com/laravel/6.x/ja/validation.html#rule-unique
-        //  指定されたIDのuniqueルールを無視する
-        
-        Validator::make($request, [  ///$data は未定義とのこと。名前はsignup 時と同じ条件 microgenius/app/Http/Controllers/Auth/RegisterController.php
-            'name' => ['required', 'string', 'max:255'], //name は必須で、文字列、最大255文字まで
-            'email' => [ 'required', 'string', 'email', 'max:255',  Rule::unique('users')->ignore($user->id), ],  //user未定義
-            ]);
-        
-        // idの値でプロフィールを検索して取得
-        $user = User::findOrFail($id);
-        
-        // プロフィールを更新
-        // $message->hobby = $request->hobby;    // L13C10.2カラム追加
-        $user->name = $request->name;
-        $user->email = $request->email;
-        
-        $user->save();
-
-        // トップページへリダイレクトさせる
-        return redirect('/');
-    } //public function updateの閉じ括弧
-    
     /**
      * microgenius/app/Http/Controllers/Auth/RegisterController.phpによると
                 protected function validator(array $data)
@@ -231,13 +176,12 @@ class UsersController extends Controller
         ]);
     }
     $request->validate  と Validator::make は
-どう違うのでしょうか。カリキュラムには記載されていないと思います
-どちらもバリデーションを行うという点では同じです。
-$request->validate の方だと | で文字列を区切って表記するため、今回使いたい
-Rule::unique('users')->ignore($user->id),
-を記述することができないです。今回は、配列でバリデーションを定義するValidator::makeの利用が必要になります。
+    どう違うのでしょうか。カリキュラムには記載されていないと思います
+    どちらもバリデーションを行うという点では同じです。
+    $request->validate の方だと | で文字列を区切って表記するため、今回使いたい
+    Rule::unique('users')->ignore($user->id),
+    を記述することができないです。今回は、配列でバリデーションを定義するValidator::makeの利用が必要になります。
     **/
-    
     // パスワード専用のupdate
     public function updatepass(Request $request, $id)
     {
@@ -260,6 +204,64 @@ Rule::unique('users')->ignore($user->id),
         return redirect('/');
     } //public function updateの閉じ括弧
     
+    // ここまでがパスワードの更新とハッシュファサード。
+    //---------------------------------------------------------------//---------------------------------------------------------------//---------------------------------------------------------------
+    
+    //L13 C8.7 MessagesControllerあっとedit 参照
+    public function edit($id) //これはOKだとおもっていたが。
+    {
+        // idの値でユーザを検索して取得
+        $user = User::findOrFail($id); //Microgeniuseからuserへ //ここで$userを定義しておく
+        
+        //if (\Auth::id() === $user->user_id) {//編集を実行する部分は、if文で囲みました。@if (Auth::id() == $user->id)だった。 microgenius/resources/views/users/card.blade.phpでは 
+        if (\Auth::id() === $user->id) { //条件文を書き換え
+        // プロフィール編集ビューでそれを表示
+        return view('users.edit', [ //ここは複数形でusers
+            'user' => $user, //ここは単数形ふたつともuser
+            
+        ]);//ifで囲われた条件でこれを実行する。
+        } //ifの閉じ括弧。
+        
+        
+         else { //自分がログインしているuser_idじゃない投稿IDのURLを直打ちした場合にはトップページに返す。
+            // トップページへリダイレクトさせる
+            return redirect('/');
+         }
+    } //public function editの閉じ括弧
+    
+    //---------------------------------------------------------------
+    
+    //Lesson 13Chapter 8.8 MessagesController あっとupdate 2022.08.15追加。 2022.08.18追加。
+    // put(updateのこと)またはpatchでusers/idにアクセスされた場合の「更新処理」
+    public function update(Request $request, $id)
+    {
+        //バリデーション //更新のときには、既に自分が登録したメールアドレスは受け入れてもらえるようにしなければいけないから、記述を修正。
+        $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|string|email|max:255|unique:users', //emailだけ別途バリデーション
+        ]);
+        //  https://readouble.com/laravel/6.x/ja/validation.html#rule-unique
+        //  指定されたIDのuniqueルールを無視する
+        
+        //Validator::make($request, [  ///$data は未定義とのこと。名前はsignup 時と同じ条件 microgenius/app/Http/Controllers/Auth/RegisterController.php
+            //'name' => ['required', 'string', 'max:255'], //name は必須で、文字列、最大255文字まで
+            //'email' => [ 'required', 'string', 'email', 'max:255',  Rule::unique('users')->ignore($user->id), ],  //user未定義
+        ///   'email' => [ 'required', 'string', 'email', 'max:255' ],  //user未定義
+        //    ]);
+        
+        // idの値でプロフィールを検索して取得
+        $user = User::findOrFail($id);
+        
+        // プロフィールを更新
+        // $message->hobby = $request->hobby;    // L13C10.2カラム追加
+        $user->name = $request->name;
+        $user->email = $request->email;
+        
+        $user->save();
+
+        // トップページへリダイレクトさせる
+        return redirect('/');
+    } //public function updateの閉じ括弧
     
     
-}
+} //class UsersController extends Controllerの閉じ括弧

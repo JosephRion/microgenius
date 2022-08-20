@@ -33,6 +33,17 @@ microgenius/resources/views/users/edit.blade.php
                     {!! Form::email('email', null, ['class' => 'form-control']) !!}
                 </div>
                 
+                <div class="form-group"> {{--2022.08.20..1653hobby追加--}}
+                    {!! Form::label('hobby', 'Hobby(任意)：') !!}
+                    {!! Form::text('hobby', null, ['class' => 'form-control']) !!}
+                </div>
+                
+                
+                
+                
+                
+                
+                
                 {!! Form::submit('Update!', ['class' => 'btn btn-primary']) !!}  {{--更新ボタン--}}<br><br><br>
                 （※ なお、パスワードの変更は⇒  
                 <a href='{!! route('users.editpass',  ['id' => Auth::id()] , ['class' => 'btn btn-light ']) !!}'"> こちらのリンク </a> からおこなえます。）

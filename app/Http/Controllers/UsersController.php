@@ -238,8 +238,8 @@ class UsersController extends Controller
         //バリデーション //更新のときには、既に自分が登録したメールアドレスは受け入れてもらえるようにしなければいけないから、記述を修正。
         $request->validate([
             'name' => 'required|max:255',
-            //'email' => 'required|string|email|max:255|unique:users', //emailだけ別途下でバリデーション
             'email' => 'required|string|email|max:255|unique:users,email,'.\Auth::id(),  //メールアドレスの本人以外での重複チェック
+            'hobby' => 'required|max:255', //試しに5文字だけの入力制限 Lesson 13Chapter 10.2
         ]);
         //  https://readouble.com/laravel/6.x/ja/validation.html#rule-unique
         //  指定されたIDのuniqueルールを無視する
@@ -257,6 +257,7 @@ class UsersController extends Controller
         // $message->hobby = $request->hobby;    // L13C10.2カラム追加
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->hobby = $request->hobby; // hobbyカラムにデータを追加 2022.08.20
         
         $user->save();
 

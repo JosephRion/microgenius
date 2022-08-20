@@ -7,6 +7,10 @@
         {{-- L15 C10.4 view でファイル新規作成ユーザのメールアドレスをもとにGravatarを取得して表示 --}}
         <img class="rounded img-fluid" src="{{ Gravatar::get($user->email, ['size' => 500]) }}" alt="">
         
+        <div > <br>
+        趣味： {{ $user->hobby }}
+        </div>
+        
         {{-- Auth::id() = {!! Auth::id()  !!},<br>
         $ user-> ={!! $user->id !!} である。<br>--}}
         {{-- class="center-block" は古い。class="d-flex justify-content-center"  class="mx-auto"  style="width: 200px;" 2022.08.18 Yuri ISHIKAWA 09:00--}}

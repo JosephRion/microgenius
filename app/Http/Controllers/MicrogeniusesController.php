@@ -35,8 +35,9 @@ class MicrogeniusesController extends Controller
     {
         // バリデーション L15 C9.4 
         $request->validate([
-            //'hobby' => 'required|max:255',   // 2022.08.15..1820 追加
             'content' => 'required|max:255',
+            //'hobby' => 'required|max:255',   // 2022.08.15..1820 追加 2022.08.20再度。Usersの方にやらなきゃいけないから、ここに追加するのは間違い。
+
         ]);
 
         // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）

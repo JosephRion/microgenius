@@ -240,15 +240,17 @@ class UsersController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.\Auth::id(),  //メールアドレスの本人以外での重複チェック
             'hobby' => 'required|max:255', //試しに5文字だけの入力制限 Lesson 13Chapter 10.2
+            'hometown' => 'required|max:255',
+            'food' => 'required|max:255',
         ]);
         //  https://readouble.com/laravel/6.x/ja/validation.html#rule-unique
         //  指定されたIDのuniqueルールを無視する
         
-        //Validator::make($request, [  ///$data は未定義とのこと。名前はsignup 時と同じ条件 microgenius/app/Http/Controllers/Auth/RegisterController.php
-            //'name' => ['required', 'string', 'max:255'], //name は必須で、文字列、最大255文字まで
-            //'email' => [ 'required', 'string', 'email', 'max:255',  Rule::unique('users')->ignore($user->id), ],  //user未定義
-        //   'email' => [ 'required', 'string', 'email', 'max:255' ],  //user未定義
-        //    ]);
+                    //Validator::make($request, [  ///$data は未定義とのこと。名前はsignup 時と同じ条件 microgenius/app/Http/Controllers/Auth/RegisterController.php
+                        //'name' => ['required', 'string', 'max:255'], //name は必須で、文字列、最大255文字まで
+                        //'email' => [ 'required', 'string', 'email', 'max:255',  Rule::unique('users')->ignore($user->id), ],  //user未定義
+                    //   'email' => [ 'required', 'string', 'email', 'max:255' ],  //user未定義
+                    //    ]);
         
         // idの値でプロフィールを検索して取得
         $user = User::findOrFail($id);
@@ -258,6 +260,8 @@ class UsersController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->hobby = $request->hobby; // hobbyカラムにデータを追加 2022.08.20
+        $user->hometown = $request->hometown; // 
+        $user->food = $request->food; // 
         
         $user->save();
 
@@ -267,3 +271,4 @@ class UsersController extends Controller
     
     
 } //class UsersController extends Controllerの閉じ括弧
+

@@ -10,6 +10,15 @@
         <div > <br>
         趣味： {{ $user->hobby }}
         </div>
+    
+        <div > 
+        出身： {{ $user->hometown }}
+        </div>
+        
+        <div > 
+        好きな食べ物： {{ $user->food }}
+        </div>
+        
         
         {{-- Auth::id() = {!! Auth::id()  !!},<br>
         $ user-> ={!! $user->id !!} である。<br>--}}

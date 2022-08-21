@@ -55,6 +55,8 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'], //emailは必須で、文字列、'email'形式であること, 最大255文字まで, 既存のレコードに無いemailであること。
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             
+            
+            
         ]);
     }
 

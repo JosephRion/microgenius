@@ -197,7 +197,7 @@ class UsersController extends Controller
         // $user->password = $request->password; //passwordのファサードの前のコマンド
             // microgenius/app/Http/Controllers/Auth/RegisterController.php というファイルによると
             // 'password' => Hash::make($data['password']), //ここでhash ファサードされている。となっている
-            $user->password = Hash::make($request->password);  // L15 C6.1 Modeo にて $user->password = Hash::make($request->password);
+        $user->password = Hash::make($request->password);  // L15 C6.1 Modeo にて $user->password = Hash::make($request->password);
         
         $user->save();
         // トップページへリダイレクトさせる
@@ -239,9 +239,9 @@ class UsersController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.\Auth::id(),  //メールアドレスの本人以外での重複チェック
-            'hobby' => 'required|max:255', //試しに5文字だけの入力制限 Lesson 13Chapter 10.2
-            'hometown' => 'required|max:255',
-            'food' => 'required|max:255',
+            'hobby' => 'max:255', //試しに5文字だけの入力制限 Lesson 13Chapter 10.2 //必須を取り外した。2022.08.21..2502TKT
+            'hometown' => 'max:255',
+            'food' => 'max:255',
         ]);
         //  https://readouble.com/laravel/6.x/ja/validation.html#rule-unique
         //  指定されたIDのuniqueルールを無視する

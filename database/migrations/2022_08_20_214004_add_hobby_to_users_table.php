@@ -15,10 +15,15 @@ class AddhobbyToUsersTable extends Migration //ここのクラスはファイル
      *
      * @return void
      */
-    public function up()
-    {
+    public function up()   { // nullを許容しない設定にしているのは下記のmigrationファイルです。2022.08.21  
         Schema::table('users', function (Blueprint $table) {
-            $table->string('hobby');  //カラムを追加 2022.08.15..1542 2022.08.20に再度使用。
+            //$table->string('hobby');  //カラムを追加 2022.08.15..1542 2022.08.20に再度使用。
+                // userテーブルにhobbyカラムを追加する。
+                // hobbyカラムはnullを許容しない。という意味になります。
+                // つまり、初期のユーザ登録処理にはhobbyを登録する処理がないけれど
+                // データベースにはhobbyは必須であるという指定がされているため
+                // 結果として矛盾が発生してエラーになっています。
+            $table->string('hobby')->nullable();  // カラムを追加 2022.08.21 ->nullable() で、null を yes に設定
         });
     }
 

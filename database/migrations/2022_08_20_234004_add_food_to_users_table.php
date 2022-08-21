@@ -14,7 +14,7 @@ class AddfoodToUsersTable extends Migration //ここのクラスはファイル�
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('food');  //カラムを追加 2022.08.20。
+            $table->string('food')->nullable();  // カラムを追加 2022.08.21 ->nullable() で、null を yes に設定
         });
     }
 
@@ -26,7 +26,7 @@ class AddfoodToUsersTable extends Migration //ここのクラスはファイル�
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('food')->nullable();  // カラムを追加 2022.08.21 ->nullable() で、null を yes に設定
+            $table->dropColumn('food');  // カラムを追加 2022.08.21 ->nullable() で、null を yes に設定
         });
     }
 }

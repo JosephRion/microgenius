@@ -14,7 +14,7 @@ class AddhometownToUsersTable extends Migration //ここのクラスはファイ
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('hometown');  //カラムを追加 2022.08.20。
+            $table->string('hometown')->nullable();  // カラムを追加 2022.08.21 ->nullable() で、null を yes に設定
         });
     }
 
@@ -26,7 +26,7 @@ class AddhometownToUsersTable extends Migration //ここのクラスはファイ
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('hometown')->nullable();  // カラムを追加 2022.08.21 ->nullable() で、null を yes に設定
+            $table->dropColumn('hometown');  // カラムを追加 2022.08.21 ->nullable() は、upにいれないといけない。
         });
     }
 }
